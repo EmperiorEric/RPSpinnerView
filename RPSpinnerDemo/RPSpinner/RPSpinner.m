@@ -31,20 +31,20 @@
         [self addSubview:cellA];
         [cells addObject:cellA];
         
-        RPSpinnerCell *cellB = [[RPSpinnerCell alloc] initWithFrame:CGRectMake(self.frame.size.width-20, (self.frame.size.height/2.0)-10, 20, 20)];
-        [cellB setBackgroundColor:[UIColor blueColor]];
-        [self addSubview:cellB];
-        [cells addObject:cellB];
-        
-        RPSpinnerCell *cellC = [[RPSpinnerCell alloc] initWithFrame:CGRectMake((self.frame.size.width/2.0)-10, self.frame.size.height-20, 20, 20)];
-        [cellC setBackgroundColor:[UIColor orangeColor]];
-        [self addSubview:cellC];
-        [cells addObject:cellC];
-        
-        RPSpinnerCell *cellD = [[RPSpinnerCell alloc] initWithFrame:CGRectMake(0, (self.frame.size.height/2.0)-10, 20, 20)];
-        [cellD setBackgroundColor:[UIColor greenColor]];
-        [self addSubview:cellD];
-        [cells addObject:cellD];
+//        RPSpinnerCell *cellB = [[RPSpinnerCell alloc] initWithFrame:CGRectMake(self.frame.size.width-20, (self.frame.size.height/2.0)-10, 20, 20)];
+//        [cellB setBackgroundColor:[UIColor blueColor]];
+//        [self addSubview:cellB];
+//        [cells addObject:cellB];
+//        
+//        RPSpinnerCell *cellC = [[RPSpinnerCell alloc] initWithFrame:CGRectMake((self.frame.size.width/2.0)-10, self.frame.size.height-20, 20, 20)];
+//        [cellC setBackgroundColor:[UIColor orangeColor]];
+//        [self addSubview:cellC];
+//        [cells addObject:cellC];
+//        
+//        RPSpinnerCell *cellD = [[RPSpinnerCell alloc] initWithFrame:CGRectMake(0, (self.frame.size.height/2.0)-10, 20, 20)];
+//        [cellD setBackgroundColor:[UIColor greenColor]];
+//        [self addSubview:cellD];
+//        [cells addObject:cellD];
     }
     return self;
 }
@@ -80,8 +80,20 @@
     CGFloat y = point.y;
     
     x -= radius;
-    y = y*-1;
+    y = y * -1;
     y += radius;
+    
+    return CGPointMake(x, y);
+}
+
+- (CGPoint)convertPointToCoodinate:(CGPoint)point
+{
+    CGFloat x = point.x;
+    CGFloat y = point.y;
+    
+    x += radius;
+    y -= radius;
+    y = y * -1;
     
     return CGPointMake(x, y);
 }
@@ -105,10 +117,12 @@
         NSLog(@"Original Center: %@",NSStringFromCGPoint(originalCenter));
         NSLog(@"Quadrant Center: %@",NSStringFromCGPoint([self convertPointToQuadrant:originalCenter]));
         
-        NSLog(@"Radius: %f",sqrt(powf(quadrantCenter.x, 2.0) + powf(quadrantCenter.y, 2.0)));
-        NSLog(@"Angle: %f (%f)",atan(quadrantCenter.y/quadrantCenter.x),atan(quadrantCenter.y/quadrantCenter.x)*(180/M_PI));
+//        NSLog(@"Radius: %f",sqrt(powf(quadrantCenter.x, 2.0) + powf(quadrantCenter.y, 2.0)));
+//        NSLog(@"Angle: %f (%f)",atan(quadrantCenter.y/quadrantCenter.x),atan(quadrantCenter.y/quadrantCenter.x)*(180/M_PI));
         
-        NSLog(@"\n\n\n");
+        angle += atan(quadrantCenter.y/quadrantCenter.x);
+
+        NSLog(@"New Angle: %f (%f)",angle,angle*(180/M_PI));
         
         CGFloat deltaX = cosf(angle) * radius;
         CGFloat deltaY = sinf(angle) * radius;
@@ -116,8 +130,16 @@
         // Create the new center
         CGPoint newCenter = CGPointMake(deltaX, deltaY);
         
+        NSLog(@"New Quadrant Center: %@",NSStringFromCGPoint(newCenter));
+        NSLog(@"New Coordinate Center: %@",NSStringFromCGPoint([self convertPointToCoodinate:newCenter]));
+        
         // Set the cell's new center
-//        cell.center = newCenter;
+        [UIView animateWithDuration:1.0 animations:^(){
+            cell.center = [self convertPointToCoodinate:newCenter];
+        }];
+        
+        NSLog(@"\n\n\n");
+
     }
 }
 
@@ -126,7 +148,7 @@
     switch (gesture.state) {
         case UIGestureRecognizerStateBegan:
 //            NSLog(@"Gesture Began");
-            [self rotateCellsByDegrees:0.0];
+            [self rotateCellsByDegrees:-35.0];
             [self.delegate viewWillSpin];
             break;
             
