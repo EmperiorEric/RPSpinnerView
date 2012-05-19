@@ -17,7 +17,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
+	
+    RPSpinner *spinner = [[RPSpinner alloc] initWithFrame:CGRectMake(10.0, 80.0, 300.0, 300.0)];
+    
+    [self.view addSubview:spinner];
 }
 
 - (void)viewDidUnload

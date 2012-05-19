@@ -16,6 +16,8 @@
 		EFA7D259156814D500F78B63 /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EFA7D257156814D500F78B63 /* MainStoryboard_iPhone.storyboard */; };
 		EFA7D25C156814D500F78B63 /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EFA7D25A156814D500F78B63 /* MainStoryboard_iPad.storyboard */; };
 		EFA7D25F156814D500F78B63 /* RPViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFA7D25E156814D500F78B63 /* RPViewController.m */; };
+		EFA7D2681568156200F78B63 /* RPSpinner.m in Sources */ = {isa = PBXBuildFile; fileRef = EFA7D2671568156200F78B63 /* RPSpinner.m */; };
+		EFA7D26B156815D200F78B63 /* RPSpinnerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EFA7D26A156815D200F78B63 /* RPSpinnerCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,16 +25,20 @@
 		EFA7D245156814D500F78B63 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		EFA7D247156814D500F78B63 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		EFA7D249156814D500F78B63 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		EFA7D24D156814D500F78B63 /* RPSpinnerDemo-Info.plist */ = {isa = PBXFileReference; path = "RPSpinnerDemo-Info.plist"; sourceTree = "<group>"; };
+		EFA7D24D156814D500F78B63 /* RPSpinnerDemo-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "RPSpinnerDemo-Info.plist"; sourceTree = "<group>"; };
 		EFA7D24F156814D500F78B63 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		EFA7D251156814D500F78B63 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		EFA7D253156814D500F78B63 /* RPSpinnerDemo-Prefix.pch */ = {isa = PBXFileReference; path = "RPSpinnerDemo-Prefix.pch"; sourceTree = "<group>"; };
-		EFA7D254156814D500F78B63 /* RPAppDelegate.h */ = {isa = PBXFileReference; path = RPAppDelegate.h; sourceTree = "<group>"; };
+		EFA7D253156814D500F78B63 /* RPSpinnerDemo-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "RPSpinnerDemo-Prefix.pch"; sourceTree = "<group>"; };
+		EFA7D254156814D500F78B63 /* RPAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RPAppDelegate.h; sourceTree = "<group>"; };
 		EFA7D255156814D500F78B63 /* RPAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RPAppDelegate.m; sourceTree = "<group>"; };
 		EFA7D258156814D500F78B63 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
 		EFA7D25B156814D500F78B63 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
-		EFA7D25D156814D500F78B63 /* RPViewController.h */ = {isa = PBXFileReference; path = RPViewController.h; sourceTree = "<group>"; };
+		EFA7D25D156814D500F78B63 /* RPViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RPViewController.h; sourceTree = "<group>"; };
 		EFA7D25E156814D500F78B63 /* RPViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RPViewController.m; sourceTree = "<group>"; };
+		EFA7D2661568156200F78B63 /* RPSpinner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RPSpinner.h; path = RPSpinner/RPSpinner.h; sourceTree = "<group>"; };
+		EFA7D2671568156200F78B63 /* RPSpinner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RPSpinner.m; path = RPSpinner/RPSpinner.m; sourceTree = "<group>"; };
+		EFA7D269156815D200F78B63 /* RPSpinnerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RPSpinnerCell.h; path = RPSpinner/RPSpinnerCell.h; sourceTree = "<group>"; };
+		EFA7D26A156815D200F78B63 /* RPSpinnerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RPSpinnerCell.m; path = RPSpinner/RPSpinnerCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,6 +91,7 @@
 				EFA7D25A156814D500F78B63 /* MainStoryboard_iPad.storyboard */,
 				EFA7D25D156814D500F78B63 /* RPViewController.h */,
 				EFA7D25E156814D500F78B63 /* RPViewController.m */,
+				EFA7D2651568151500F78B63 /* RPSpinner */,
 				EFA7D24C156814D500F78B63 /* Supporting Files */,
 			);
 			path = RPSpinnerDemo;
@@ -99,6 +106,17 @@
 				EFA7D253156814D500F78B63 /* RPSpinnerDemo-Prefix.pch */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		EFA7D2651568151500F78B63 /* RPSpinner */ = {
+			isa = PBXGroup;
+			children = (
+				EFA7D2661568156200F78B63 /* RPSpinner.h */,
+				EFA7D2671568156200F78B63 /* RPSpinner.m */,
+				EFA7D269156815D200F78B63 /* RPSpinnerCell.h */,
+				EFA7D26A156815D200F78B63 /* RPSpinnerCell.m */,
+			);
+			name = RPSpinner;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -169,6 +187,8 @@
 				EFA7D252156814D500F78B63 /* main.m in Sources */,
 				EFA7D256156814D500F78B63 /* RPAppDelegate.m in Sources */,
 				EFA7D25F156814D500F78B63 /* RPViewController.m in Sources */,
+				EFA7D2681568156200F78B63 /* RPSpinner.m in Sources */,
+				EFA7D26B156815D200F78B63 /* RPSpinnerCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,5 +1,5 @@
 //
-//  RPViewController.h
+//  RPSpinner.h
 //  RPSpinnerDemo
 //
 //  Created by Ryan Poolos on 5/19/12.
@@ -8,8 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-#import "RPSpinner.h"
+#import "RPSpinnerCell.h"
 
-@interface RPViewController : UIViewController
+@interface RPSpinner : UIView
 
 @end
