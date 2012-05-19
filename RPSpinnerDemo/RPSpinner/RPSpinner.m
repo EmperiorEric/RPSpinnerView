@@ -10,11 +10,41 @@
 
 @implementation RPSpinner
 
+@synthesize delegate;
+@synthesize datasource;
+
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
+        
+        radius = (self.frame.size.width/2.0);
+        
+        dragGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)];
+        [self addGestureRecognizer:dragGesture];
+        
+        cells = [NSMutableArray array];
+        
+        RPSpinnerCell *cellA = [[RPSpinnerCell alloc] initWithFrame:CGRectMake((self.frame.size.width/2.0)-10, 0, 20, 20)];
+        [cellA setBackgroundColor:[UIColor whiteColor]];
+        [self addSubview:cellA];
+        [cells addObject:cellA];
+        
+        RPSpinnerCell *cellB = [[RPSpinnerCell alloc] initWithFrame:CGRectMake(self.frame.size.width-20, (self.frame.size.height/2.0)-10, 20, 20)];
+        [cellB setBackgroundColor:[UIColor blueColor]];
+        [self addSubview:cellB];
+        [cells addObject:cellB];
+        
+        RPSpinnerCell *cellC = [[RPSpinnerCell alloc] initWithFrame:CGRectMake((self.frame.size.width/2.0)-10, self.frame.size.height-20, 20, 20)];
+        [cellC setBackgroundColor:[UIColor orangeColor]];
+        [self addSubview:cellC];
+        [cells addObject:cellC];
+        
+        RPSpinnerCell *cellD = [[RPSpinnerCell alloc] initWithFrame:CGRectMake(0, (self.frame.size.height/2.0)-10, 20, 20)];
+        [cellD setBackgroundColor:[UIColor greenColor]];
+        [self addSubview:cellD];
+        [cells addObject:cellD];
     }
     return self;
 }
@@ -42,5 +72,87 @@
     CGContextStrokeEllipseInRect(context, rim);
 }
 
+- (CGPoint)convertPointToQuadrant:(CGPoint)point
+{
+    // center 150,150 = 0,0
+    
+    CGFloat x = point.x;
+    CGFloat y = point.y;
+    
+    x -= radius;
+    y = y*-1;
+    y += radius;
+    
+    return CGPointMake(x, y);
+}
+
+- (void)rotateCellsByDegrees:(CGFloat)angle
+{
+    [self rotateCellsByRadians:angle*(M_PI/180)];
+}
+
+- (void)rotateCellsByRadians:(CGFloat)angle
+{
+    // For each cell we need to calculate its new position based on the rotation.
+    
+    NSLog(@"\n\n\n");
+    
+    for (RPSpinnerCell *cell in cells) {
+        // Save the cell's original center
+        CGPoint originalCenter = cell.center;
+        CGPoint quadrantCenter = [self convertPointToQuadrant:originalCenter];
+
+        NSLog(@"Original Center: %@",NSStringFromCGPoint(originalCenter));
+        NSLog(@"Quadrant Center: %@",NSStringFromCGPoint([self convertPointToQuadrant:originalCenter]));
+        
+        NSLog(@"Radius: %f",sqrt(powf(quadrantCenter.x, 2.0) + powf(quadrantCenter.y, 2.0)));
+        NSLog(@"Angle: %f (%f)",atan(quadrantCenter.y/quadrantCenter.x),atan(quadrantCenter.y/quadrantCenter.x)*(180/M_PI));
+        
+        NSLog(@"\n\n\n");
+        
+        CGFloat deltaX = cosf(angle) * radius;
+        CGFloat deltaY = sinf(angle) * radius;
+        
+        // Create the new center
+        CGPoint newCenter = CGPointMake(deltaX, deltaY);
+        
+        // Set the cell's new center
+//        cell.center = newCenter;
+    }
+}
+
+- (void)handlePan:(UIPanGestureRecognizer *)gesture
+{
+    switch (gesture.state) {
+        case UIGestureRecognizerStateBegan:
+//            NSLog(@"Gesture Began");
+            [self rotateCellsByDegrees:0.0];
+            [self.delegate viewWillSpin];
+            break;
+            
+        case UIGestureRecognizerStateChanged:
+//            NSLog(@"Gesture Moved");
+            break;
+            
+        case UIGestureRecognizerStateEnded:
+        {
+            CGFloat magnitude = sqrtf(([gesture velocityInView:self].x * [gesture velocityInView:self].x) + ([gesture velocityInView:self].y * [gesture velocityInView:self].y));
+//            NSLog(@"Gesture Ended With Velocity Magnitude: %f",magnitude);
+            [self.delegate viewDidSpin];
+        }
+            break;
+        
+        case UIGestureRecognizerStateCancelled:
+            NSLog(@"Gesture Cancelled");
+            break;
+            
+        case UIGestureRecognizerStateFailed:
+            NSLog(@"Gesture Failed");
+            break;
+            
+        default:
+            break;
+    }
+}
 
 @end

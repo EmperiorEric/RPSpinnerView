@@ -10,6 +10,6 @@
 
 #import "RPSpinner.h"
 
-@interface RPViewController : UIViewController
+@interface RPViewController : UIViewController <RPSpinnerDelegate, RPSpinnerDatasource>
 
 @end

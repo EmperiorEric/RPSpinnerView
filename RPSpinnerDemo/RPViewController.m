@@ -19,6 +19,8 @@
     [super viewDidLoad];
 	
     RPSpinner *spinner = [[RPSpinner alloc] initWithFrame:CGRectMake(10.0, 80.0, 300.0, 300.0)];
+    spinner.delegate = self;
+    spinner.datasource = self;
     
     [self.view addSubview:spinner];
 }
@@ -36,6 +38,20 @@
     } else {
         return YES;
     }
+}
+
+#pragma mark - Spinner Datasource
+
+#pragma mark - Spinner Delegate
+
+- (void)viewWillSpin
+{
+    NSLog(@"View Will Spin");
+}
+
+- (void)viewDidSpin
+{
+    NSLog(@"View Did Spin");
 }
 
 @end

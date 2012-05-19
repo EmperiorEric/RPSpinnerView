@@ -10,6 +10,30 @@
 
 #import "RPSpinnerCell.h"
 
+@protocol RPSpinnerDatasource <NSObject>
+
+@end
+
+@protocol RPSpinnerDelegate <NSObject>
+
+@optional
+
+- (void)viewWillSpin;
+- (void)viewDidSpin;
+
+@end
+
 @interface RPSpinner : UIView
+{
+    @private
+    
+    UIPanGestureRecognizer *dragGesture;
+    NSMutableArray *cells;
+    
+    CGFloat radius;
+}
+
+@property (weak, nonatomic) id <RPSpinnerDelegate> delegate;
+@property (weak, nonatomic) id <RPSpinnerDatasource> datasource;
 
 @end
