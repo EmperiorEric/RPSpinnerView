@@ -98,6 +98,30 @@
     return CGPointMake(x, y);
 }
 
+- (CGFloat)checkQuadrantofPoint:(CGPoint)point
+{
+    CGFloat x = point.x;
+    CGFloat y = point.y;
+    
+    if (x > 0) { // If X is positive its either Quadrant I or IV
+        if (y > 0) { // If X is positive and Y is Positive its Quadrant I
+            NSLog(@"Quadrant I");
+            return 1.0;
+        } else { // If X is positive and Y is negative its Quadrant IV
+            NSLog(@"Quadrant IV");
+            return 4.0;
+        }
+    } else { // Else X is negative its either Quadrant II or III
+        if (y > 0) { // If X is negative and Y is Positive its Quadrant II
+            NSLog(@"Quadrant II");
+            return 2.0;
+        } else { // If X is negative and Y is negative its Quadrant III
+            NSLog(@"Quadrant III");
+            return 3.0;
+        }
+    }
+}
+
 - (void)rotateCellsByDegrees:(CGFloat)angle
 {
     [self rotateCellsByRadians:angle*(M_PI/180)];
@@ -107,20 +131,26 @@
 {
     // For each cell we need to calculate its new position based on the rotation.
     
-    NSLog(@"\n\n\n");
+//    NSLog(@"\n\n\n");
     
     for (RPSpinnerCell *cell in cells) {
         // Save the cell's original center
         CGPoint originalCenter = cell.center;
         CGPoint quadrantCenter = [self convertPointToQuadrant:originalCenter];
 
-        NSLog(@"Original Center: %@",NSStringFromCGPoint(originalCenter));
-        NSLog(@"Quadrant Center: %@",NSStringFromCGPoint([self convertPointToQuadrant:originalCenter]));
+//        NSLog(@"Original Center: %@",NSStringFromCGPoint(originalCenter));
+//        NSLog(@"Quadrant Center: %@",NSStringFromCGPoint(quadrantCenter));
+        
+//        [self checkQuadrantofPoint:quadrantCenter];
         
 //        NSLog(@"Radius: %f",sqrt(powf(quadrantCenter.x, 2.0) + powf(quadrantCenter.y, 2.0)));
-//        NSLog(@"Angle: %f (%f)",atan(quadrantCenter.y/quadrantCenter.x),atan(quadrantCenter.y/quadrantCenter.x)*(180/M_PI));
         
-        angle += atan(quadrantCenter.y/quadrantCenter.x);
+        float originalAngle = atan(quadrantCenter.y/quadrantCenter.x);
+        
+        NSLog(@"Original Angle: %f (%f)",originalAngle,originalAngle*(180/M_PI));
+        NSLog(@"Angle to Add: %f (%f)",angle,angle*(180/M_PI));
+                
+        angle += originalAngle;
 
         NSLog(@"New Angle: %f (%f)",angle,angle*(180/M_PI));
         
@@ -130,15 +160,15 @@
         // Create the new center
         CGPoint newCenter = CGPointMake(deltaX, deltaY);
         
-        NSLog(@"New Quadrant Center: %@",NSStringFromCGPoint(newCenter));
-        NSLog(@"New Coordinate Center: %@",NSStringFromCGPoint([self convertPointToCoodinate:newCenter]));
+//        NSLog(@"New Quadrant Center: %@",NSStringFromCGPoint(newCenter));
+//        NSLog(@"New Coordinate Center: %@",NSStringFromCGPoint([self convertPointToCoodinate:newCenter]));
         
         // Set the cell's new center
-        [UIView animateWithDuration:1.0 animations:^(){
+//        [UIView animateWithDuration:1.0 animations:^(){
             cell.center = [self convertPointToCoodinate:newCenter];
-        }];
+//        }];
         
-        NSLog(@"\n\n\n");
+//        NSLog(@"\n\n\n");
 
     }
 }
@@ -146,31 +176,44 @@
 - (void)handlePan:(UIPanGestureRecognizer *)gesture
 {
     switch (gesture.state) {
-        case UIGestureRecognizerStateBegan:
+        case UIGestureRecognizerStateBegan: {
 //            NSLog(@"Gesture Began");
-            [self rotateCellsByDegrees:-35.0];
+            
+            originalTouch = [gesture translationInView:self];
+            
             [self.delegate viewWillSpin];
-            break;
+        } break;
             
-        case UIGestureRecognizerStateChanged:
+        case UIGestureRecognizerStateChanged: {
 //            NSLog(@"Gesture Moved");
-            break;
+        
+            CGPoint newTouch = [gesture translationInView:self];
             
-        case UIGestureRecognizerStateEnded:
-        {
+            float diff = originalTouch.x - newTouch.x;
+//            NSLog(@"Translation X: %f",diff);
+            [self rotateCellsByDegrees:diff];
+
+            
+            originalTouch = [gesture translationInView:self];
+                        
+        } break;
+            
+        case UIGestureRecognizerStateEnded: {
             CGFloat magnitude = sqrtf(([gesture velocityInView:self].x * [gesture velocityInView:self].x) + ([gesture velocityInView:self].y * [gesture velocityInView:self].y));
+            
+//            [self rotateCellsByDegrees:magnitude];
+//            
 //            NSLog(@"Gesture Ended With Velocity Magnitude: %f",magnitude);
             [self.delegate viewDidSpin];
-        }
-            break;
+        } break;
         
-        case UIGestureRecognizerStateCancelled:
+        case UIGestureRecognizerStateCancelled: {
             NSLog(@"Gesture Cancelled");
-            break;
+        } break;
             
-        case UIGestureRecognizerStateFailed:
+        case UIGestureRecognizerStateFailed: {
             NSLog(@"Gesture Failed");
-            break;
+        } break;
             
         default:
             break;

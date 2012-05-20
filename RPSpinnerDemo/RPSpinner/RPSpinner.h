@@ -31,6 +31,8 @@
     NSMutableArray *cells;
     
     CGFloat radius;
+    
+    CGPoint originalTouch;
 }
 
 @property (weak, nonatomic) id <RPSpinnerDelegate> delegate;
